@@ -4,6 +4,9 @@ require("express-async-errors")
 const express = require("express")
 const app = express()
 
+const fileUpload = require("express-fileupload")
+
+
 // Import database
 const connectDB = require("./db/connect")
 
@@ -16,13 +19,14 @@ const errorHandlerMiddleware = require("./middleware/error-handler")
 
 app.use(express.static("./public"))
 app.use(express.json())
+app.use(fileUpload({ useTempFiles:true}))
 
 
 app.get('/', (req, res)=>{
     res.send('<h1>File upload starter</h1>')
 })
 
-app.use('api/v1/products', productRouter)
+app.use('/api/v1/products', productRouter)
 
 // use middleware
 app.use(notFoundMiddleware)
